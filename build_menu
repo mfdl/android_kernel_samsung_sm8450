@@ -16,6 +16,7 @@ export PATH=$PARENT_DIR/gas/linux-x86:$PATH
 export TARGET_SOC=waipio
 export LLVM=1 LLVM_IAS=1
 export ARCH=arm64
+KERNEL_MAKE_ENV="LOCALVERSION=-afaneh92"
 
 # Color
 ON_BLUE=`echo -e "\033[44m"`	# On Blue
@@ -90,8 +91,8 @@ build_kernel(){
   variant
   echo "${GREEN}***** Compiling kernel *****${STD}"
   [ ! -d "out" ] && mkdir out
-  make -j$(nproc) -C $(pwd) O=$(pwd)/out afaneh_${VARIANT}_defconfig
-  make -j$(nproc) -C $(pwd) O=$(pwd)/out
+  make -j$(nproc) -C $(pwd) O=$(pwd)/out $KERNEL_MAKE_ENV afaneh_${VARIANT}_defconfig
+  make -j$(nproc) -C $(pwd) O=$(pwd)/out $KERNEL_MAKE_ENV
 
   [ -e out/arch/arm64/boot/Image.gz ] && cp out/arch/arm64/boot/Image.gz $(pwd)/out/Image.gz
   if [ -e out/arch/arm64/boot/Image ]; then
